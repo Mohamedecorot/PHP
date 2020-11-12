@@ -16,7 +16,7 @@ echo bonjour('Jean');
 // si l'utilisateur répond "o" => true
 // si l'utilisateur répond "n" => false
 
-function repondre_oui_non ($phrase) {
+function repondre_oui_non (? string $phrase = null) {
     while (true) {
         $reponse = readline($phrase . " - (o)ui/(n)non : ");
         if ($reponse ==="o") {
