@@ -1,17 +1,27 @@
 
     </main><!-- /.container -->
-
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-    <h5>Navigation</h5>
-    <ul class="list-unstyled text-small">
-        <?= nav_menu(); ?>
-    </ul>
+<footer>
+    <hr>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <?php if($_SERVER['SCRIPT_NAME'] != "/newsletter.php"): ?>
+                <form action="/newsletter.php" method="post" class="form-inline">
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Entrer votre email" required class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                </form>
+            <?php endif ?>
+        </div>
+        <div class="col-md-4">
+        <h5>Navigation</h5>
+        <ul class="list-unstyled text-small">
+            <?= nav_menu(); ?>
+        </ul>
+        </div>
     </div>
-</div>
-
+</footer>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
