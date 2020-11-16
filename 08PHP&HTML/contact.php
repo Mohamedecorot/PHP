@@ -1,8 +1,8 @@
 <?php
 $title = "Nous contacter";
 
-require 'header.php';
-require_once 'config.php';
+require 'elements/header.php';
+require_once 'data/config.php';
 require_once 'functions.php';
 
 date_default_timezone_set('Europe/Paris');
@@ -54,4 +54,4 @@ if ($ouvert) { $color = 'green'; } else { $color = 'red'; }
     </div>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php require 'elements/footer.php'; ?>

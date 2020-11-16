@@ -1,6 +1,6 @@
 <?php
 $title = "Déviner le chiffre";
-require 'header.php';
+require 'elements/header.php';
 $aDeviner = 150;
 $erreur = null;
 $succes = null;
@@ -34,6 +34,6 @@ if (isset($_POST['chiffre'])) {
     </div>
 <?php endif ?>
 
-<?php require 'footer.php'; ?>
+<?php require 'elements/footer.php'; ?>
 
 <?php //pour lancer php avec les erreurs indiquées : php -S localhost:8000 -d error_reporting=E_ALL ?>

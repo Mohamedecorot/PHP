@@ -1,4 +1,5 @@
 <?php
+require 'elements/header.php';
 require_once 'functions.php';
 //Checkbox
 $parfums = [
@@ -42,7 +43,6 @@ foreach (['parfum', 'supplement', 'cornet'] as $name) {
     }
 }
 
-require 'header.php';
 
 ?>
 
@@ -97,4 +97,4 @@ require 'header.php';
     </div>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php require 'elements/footer.php'; ?>
