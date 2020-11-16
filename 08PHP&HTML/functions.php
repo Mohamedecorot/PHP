@@ -23,8 +23,8 @@ function nav_menu(string $linkClass=''): string
         nav_item('/index.php', 'Accueil', $linkClass) .
         nav_item('/contact.php', 'Contact', $linkClass) .
         nav_item('/jeu.php', 'Devine le chiffre', $linkClass) .
-        nav_item('/glace.php', 'Compose ta glace', $linkClass) ;
-
+        nav_item('/glace.php', 'Compose ta glace', $linkClass) .
+        nav_item('/menu.php', 'Menu (miam miam)', $linkClass) ;
 }
 
 function checkbox (string $name, string $value, array $data): string
