@@ -23,8 +23,10 @@ require 'elements/header.php';
 <?php if ($age >= 18): ?>
     <h1>Voilà le contenu réservé aux adultes</h1>
     <p>Vous avez <?= $age ?> ans</p>
+    <a href="nsfw.php?action=reinitialisation">Réinitialiser</a>
 <?php elseif ($age !== null): ?>
     <div class="alert alert-danger">Vous n'avez pas l'âge requis pour accéder au contenu, vous n'avez que <?= $age ?> ans</div>
+    <a href="nsfw.php?action=reinitialisation">Réinitialiser</a>
 <?php else: ?>
 <form action="" method="post">
     <div class="form-group">
@@ -39,5 +41,4 @@ require 'elements/header.php';
 </form>
 <?php endif; ?>
 
-<a href="nsfw.php?action=reinitialisation">Réinitialiser</a>
 <?php require 'elements/footer.php'; ?>
