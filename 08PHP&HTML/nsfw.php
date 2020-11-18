@@ -1,6 +1,8 @@
 <?php
 
 $age = null;
+$title = "Adulte";
+
 
 if (!empty($_GET['action']) && $_GET['action'] === 'reinitialisation') {
     unset($_COOKIE['birthday']);

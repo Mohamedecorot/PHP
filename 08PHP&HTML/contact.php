@@ -19,8 +19,6 @@ if ($ouvert) { $color = 'green'; } else { $color = 'red'; }
 
 <div class="row">
     <div class="col-md-8">
-        <h2>Debug</h2>
-        <?= dump($_SESSION) ?>
         <h2>Nous contacter</h2>
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae impedit deleniti quo consectetur nobis consequuntur, nisi nulla autem expedita laboriosam ratione molestias obcaecati ea. Aspernatur, doloribus. Doloremque quasi facere totam.</p>
     </div>
