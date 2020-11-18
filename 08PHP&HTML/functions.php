@@ -26,7 +26,8 @@ function nav_menu(string $linkClass=''): string
         nav_item('/glace.php', 'Compose ta glace', $linkClass) .
         nav_item('/menu.php', 'Menu (miam miam)', $linkClass) .
         nav_item('/newsletter.php', 'Newsletter', $linkClass) .
-        nav_item('/nsfw.php', 'Adulte', $linkClass) ;
+        nav_item('/nsfw.php', 'Adulte', $linkClass) .
+        nav_item('/dashboard.php', 'Dashboard', $linkClass) ;
 
 }
 
