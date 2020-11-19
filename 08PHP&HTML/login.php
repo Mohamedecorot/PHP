@@ -1,7 +1,9 @@
 <?php
 $erreur = null;
+// echo password8hash('Doe', PASSWORD_DEFAULT, ['cost' => 12]);
+$password = '$2y$12$AbTncrn2nZb0OkA95oVdh.1jx3XuLfvGI.XOuUC1I37tyRfar5i6q';
 if (!empty($_POST['pseudo']) && !empty($_POST['motdepasse'])) {
-    if ($_POST['pseudo'] === 'John' && $_POST['motdepasse'] === 'Doe') {
+    if ($_POST['pseudo'] === 'John' &&  password_verify($_POST['motdepasse'], $password)) {
         // on connecte l'utilisateur
         session_start();
         $_SESSION['connecte'] = 1;
