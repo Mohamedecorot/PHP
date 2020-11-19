@@ -75,4 +75,4 @@ require 'elements/header.php';
     </div>
 </div>
 
-<?php require 'elements/footer.php'; ?>
+<?php require_once 'elements/footer.php'; ?>
