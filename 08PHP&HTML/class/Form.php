@@ -7,7 +7,8 @@ SANS STATIC ON FERAIT : $form = new Form(); (ceci est l'instanciation)
 
 AVEC STATIC ON FAIT : echo Form::checkbox('demo', 'Demo', []);
 Pour la propriété on ferait par exemple echo Form::$class; si on fait appelle à elle depuis l'exterieur de la class
-par contre si on fait appelle à une propriété dans la class, on utilise alors le mot self
+par contre si on fait appelle à une propriété dans la class, on utilise alors le mot self pour la class courante ou
+le mot static pour aussi les enfants (résolution static à la volé)
 */
 class Form {
 
