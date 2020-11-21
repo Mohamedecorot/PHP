@@ -1,10 +1,15 @@
 <?php
 require_once 'classes/Message.php';
-//require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'Message.php';
+require_once 'classes/GuestBook.php';
 $errors = null;
+$success = false;
 if (isset($_POST['username'], $_POST['message'])) {
     $message = new Message($_POST['username'], $_POST['message']);
     if ($message->isValid()) {
+        $guestbook = new GuestBook(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'messages');
+        $guestbook->addMessage($message);
+        $success = true;
+        $_POST = [];
 
     } else {
         $errors = $message->getError();
@@ -21,6 +26,12 @@ require 'elements/header.php';
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger">
             Formulaire invalide
+        </div>
+    <?php endif ?>
+
+    <?php if ($success): ?>
+        <div class="alert alert-success">
+            Merci pour votre message
         </div>
     <?php endif ?>
 
