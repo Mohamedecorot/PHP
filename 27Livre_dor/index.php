@@ -3,10 +3,10 @@ require_once 'classes/Message.php';
 require_once 'classes/GuestBook.php';
 $errors = null;
 $success = false;
+$guestbook = new GuestBook(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'messages');
 if (isset($_POST['username'], $_POST['message'])) {
     $message = new Message($_POST['username'], $_POST['message']);
     if ($message->isValid()) {
-        $guestbook = new GuestBook(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'messages');
         $guestbook->addMessage($message);
         $success = true;
         $_POST = [];
@@ -15,6 +15,8 @@ if (isset($_POST['username'], $_POST['message'])) {
         $errors = $message->getError();
     }
 }
+
+$messages = $guestbook->getMessage();
 
 $title = "Livre d'or";
 require 'elements/header.php';
@@ -50,6 +52,15 @@ require 'elements/header.php';
         </div>
         <button class="btn btn-primary">Envoyer</button>
     </form>
+
+    <?php if (!empty($messages)): ?>
+    <h1 class="mt-4">Messages postés</h1>
+
+    <?php foreach($messages as $message): ?>
+        <?= $message->toHTML() ?>
+    <?php endforeach ?>
+
+    <?php endif ?>
 </div>
 
 <?php require 'elements/footer.php'; ?>

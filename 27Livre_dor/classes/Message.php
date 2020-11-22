@@ -7,6 +7,12 @@ class Message {
     private $message;
     private $date;
 
+    public static function fromJSON(string $json): Message
+    {
+        $data = json_decode($json, true);
+        return new self($data['username'], $data['message'], new DateTime("@" . $data['date']));
+    }
+
     public function __construct(string $username, string $message, ?DateTime $date = null)
     {
         $this->username = $username;
@@ -32,6 +38,20 @@ class Message {
         return $errors;
     }
 
+    public function toHTML(): string
+    {
+        $username = htmlentities($this->username);
+        $this->date->setTimezone(new DateTimeZone('Europe/Paris'));
+        $date = $this->date->format('d/m/Y à H:i');
+        $message = nl2br(htmlentities($this->message));
+        return <<<HTML
+        <p>
+            <strong>{$username}</strong> <em>le {$date}</em><br>
+            {$message}
+        </p>
+HTML;
+    }
+
     public function toJSON(): string
     {
         return json_encode([
@@ -40,5 +60,6 @@ class Message {
             'date'     => $this->date->getTimestamp()
         ]);
     }
+
 }
 
