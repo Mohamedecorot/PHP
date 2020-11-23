@@ -1,4 +1,7 @@
 <?php
+require_once 'CurlException.php';
+require_once 'HTTPException.php';
+require_once 'UnauthorizedHTTPException.php';
 class OpenWeather {
 
     private $apiKey;
@@ -10,16 +13,8 @@ class OpenWeather {
 
     public function getToday(string $city): ?array
     {
-        try {
-            $data = $this->callAPI("weather?q={$city}");
-        }
-        catch (Exception $e) {
-            return [
-                'temp' => 0,
-                'description' => 'Météo indisponible',
-                'date' => new DateTime()
-            ];
-        }
+        $data = $this->callAPI("weather?q={$city}");
+
         return [
             'temp' => $data['main']['temp'],
             'description' => $data['weather'][0]['description'],
@@ -29,11 +24,8 @@ class OpenWeather {
 
     public function getForecast(string $city): ?array
     {
-        try {
-            $data = $this->callAPI("forecast/daily?q={$city}");
-        } catch (Exception $e) {
-            return [];
-        }
+        $data = $this->callAPI("forecast/daily?q={$city}");
+
         foreach($data['list'] as $day) {
             $results[] = [
                 'temp' => $day['temp']['day'],
@@ -53,14 +45,17 @@ class OpenWeather {
         ]);
         $data = curl_exec($curl);
         if ($data === false) {
-            $error = curl_error($curl);
+            throw new CurlException($curl);
+        }
+        $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if ($code !== 200) {
             curl_close($curl);
-            throw new Exception($error);
+            if ($code === 401) {
+                $data = json_decode($data, true);
+                throw new UnauthorizedHTTPException($data['message'], 401);
+            }
+            throw new HTTPException($data, $code);
         }
-        if ($data === false || curl_getinfo($curl, CURLINFO_HTTP_CODE) !== 200) {
-            throw new Exception($data);
-        }
-        $results = [];
         curl_close($curl);
         return json_decode($data, true);
     }
