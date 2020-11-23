@@ -10,7 +10,16 @@ class OpenWeather {
 
     public function getToday(string $city): ?array
     {
-        $data = $this->callAPI("weather?q={$city}");
+        try {
+            $data = $this->callAPI("weather?q={$city}");
+        }
+        catch (Exception $e) {
+            return [
+                'temp' => 0,
+                'description' => 'Météo indisponible',
+                'date' => new DateTime()
+            ];
+        }
         return [
             'temp' => $data['main']['temp'],
             'description' => $data['weather'][0]['description'],
@@ -20,8 +29,11 @@ class OpenWeather {
 
     public function getForecast(string $city): ?array
     {
-        $data = $this->callAPI("forecast/daily?q={$city}");
-
+        try {
+            $data = $this->callAPI("forecast/daily?q={$city}");
+        } catch (Exception $e) {
+            return [];
+        }
         foreach($data['list'] as $day) {
             $results[] = [
                 'temp' => $day['temp']['day'],
@@ -40,10 +52,16 @@ class OpenWeather {
             CURLOPT_TIMEOUT        => 1
         ]);
         $data = curl_exec($curl);
+        if ($data === false) {
+            $error = curl_error($curl);
+            curl_close($curl);
+            throw new Exception($error);
+        }
         if ($data === false || curl_getinfo($curl, CURLINFO_HTTP_CODE) !== 200) {
-            return null;
+            throw new Exception($data);
         }
         $results = [];
+        curl_close($curl);
         return json_decode($data, true);
     }
 }
