@@ -6,6 +6,15 @@ $pdo = new PDO('sqlite:../data.db', null, null, [
 //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $error = null;
 try {
+    if (isset($_POST['name'], $_POST['content'])) {
+        $query = $pdo->prepare('INSERT INTO posts (name, content, created_at) VALUES (:name, :content, :created_at)');
+        $query->execute([
+            'name' => $_POST['name'],
+            'content' => $_POST['content'],
+            'created_at' => time()
+        ]);
+        header('Location: /blog/edit.php?id=' . $pdo->lastInsertId());
+    }
     $query = $pdo->query('SELECT * FROM posts');
     $posts =$query->fetchAll();
 } catch (PDOException $e) {
@@ -18,14 +27,29 @@ try {
 require '../elements/header.php';
 ?>
 
-<?php if ($error): ?>
-    <div class="alert alert-danger"><?= $error ?></div>
-<?php else: ?>
-    <ul>
-        <?php foreach($posts as $post): ?>
-            <li><a href="/blog/edit.php?id=<?= $post->id ?>"><?= htmlentities($post->name) ?></a></li>
-        <?php endforeach ?>
-    </ul>
-<?php endif ?>
+<div class="container">
+    <h2>Liste des articles</h2>
+    <?php if ($error): ?>
+        <div class="alert alert-danger"><?= $error ?></div>
+    <?php else: ?>
+        <ul>
+            <?php foreach($posts as $post): ?>
+                <li><a href="/blog/edit.php?id=<?= $post->id ?>"><?= htmlentities($post->name) ?></a></li>
+            <?php endforeach ?>
+        </ul>
+
+        <h2>Ajouter un article</h2>
+        <form action="" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" value="" placeholder="Titre de l'article">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" name="content" value="" placeholder="Contenu de l'article"></textarea>
+            </div>
+            <button class="btn btn-primary">Sauvegarder</button>
+        </form>
+
+    <?php endif ?>
+</div>
 
 <?php require '../elements/footer.php'; ?>

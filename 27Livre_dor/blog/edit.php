@@ -31,6 +31,10 @@ require '../elements/header.php';
 ?>
 
 <div class="container">
+
+    <p>
+        <a href="/blog">Revenir à la liste des articles</a>
+    </p>
     <?php if ($success): ?>
         <div class="alert alert-success"><?= $success ?></div>
     <?php endif ?>
