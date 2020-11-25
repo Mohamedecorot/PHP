@@ -1,8 +1,13 @@
 <?php
-phpinfo();
+/*phpinfo();
 die();
+use Mohamedecorot\Guestbook\GuestBook;*/
+use Mohamedecorot\Guestbook\Message;
+
 require_once 'classes/Message.php';
 require_once 'classes/GuestBook.php';
+require_once 'classes/contact/Message.php';
+
 $errors = null;
 $success = false;
 $guestbook = new GuestBook(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'messages');

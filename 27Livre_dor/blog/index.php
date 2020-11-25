@@ -5,6 +5,7 @@ $pdo = new PDO('sqlite:../data.db', null, null, [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
 ]);
 //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//les transactions c'est ce qui permet de faire plusieurs requêtes, les unes après les autres
 $error = null;
 try {
     if (isset($_POST['name'], $_POST['content'])) {

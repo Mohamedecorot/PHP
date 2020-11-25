@@ -1,5 +1,11 @@
 <?php
+
+use Mohamedecorot\Guestbook\Message;
+
 require_once 'Message.php';
+
+
+
 class GuestBook {
 
     private $file;
