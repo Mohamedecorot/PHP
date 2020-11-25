@@ -1,4 +1,5 @@
 <?php
+namespace App\Guestbook;
 
 use Mohamedecorot\Guestbook\Message;
 

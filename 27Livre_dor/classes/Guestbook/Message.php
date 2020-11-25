@@ -1,5 +1,5 @@
 <?php
-namespace Mohamedecorot\Guestbook;
+namespace App\Guestbook;
 
 use \DateTime;
 use \DateTimeZone;

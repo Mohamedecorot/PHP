@@ -1,4 +1,6 @@
 <?php
+namespace App;
+
 require_once 'CurlException.php';
 require_once 'HTTPException.php';
 require_once 'UnauthorizedHTTPException.php';

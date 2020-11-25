@@ -1,7 +1,7 @@
 <?php
-/*phpinfo();
+phpinfo();
 die();
-use Mohamedecorot\Guestbook\GuestBook;*/
+/*use Mohamedecorot\Guestbook\GuestBook;*/
 use Mohamedecorot\Guestbook\Message;
 
 require_once 'classes/Message.php';

@@ -1,5 +1,5 @@
 <?php
-namespace Mohamedecorot\Exception;
+namespace App\Exceptions;
 
 class HTTPException extends \Exception {
 
