@@ -1,9 +1,10 @@
 <?php
 namespace App;
 
-require_once 'CurlException.php';
-require_once 'HTTPException.php';
-require_once 'UnauthorizedHTTPException.php';
+use App\Exceptions\CurlException;
+use App\Exceptions\HTTPException;
+use App\Exceptions\UnauthorizedHTTPException;
+
 
 /**
  * Gére l'API d'Openweather
@@ -32,7 +33,7 @@ class OpenWeather {
         return [
             'temp' => $data['main']['temp'],
             'description' => $data['weather'][0]['description'],
-            'date' => new DateTime()
+            'date' => new \DateTime()
         ];
     }
 
@@ -50,7 +51,7 @@ class OpenWeather {
             $results[] = [
                 'temp' => $day['temp']['day'],
                 'description' => $day['weather'][0]['description'],
-                'date' => new DateTime('@' . $day['dt'])
+                'date' => new \DateTime('@' . $day['dt'])
             ];
         }
         return $results;

@@ -1,7 +1,10 @@
 <?php
-declare(strict_types=1);
-require_once 'classes/OpenWeather.php';
-$weather = new OpenWeather('94c6cf0868fa5cb930a5e2d71baf0dbf');
+//declare(strict_types=1);
+use App\Exceptions\CurlException;
+use App\Exceptions\HTTPException;
+
+require_once 'vendor/autoload.php';
+$weather = new App\OpenWeather('94c6cf0868fa5cb930a5e2d71baf0dbf');
 $error = null;
 try {
     //$data = explode(' ');
@@ -30,3 +33,4 @@ require 'elements/header.php';
 <?php endif ?>
 
 <?php require 'elements/footer.php';
+use App\OpenWeather;

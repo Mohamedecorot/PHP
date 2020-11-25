@@ -1,12 +1,16 @@
 <?php
-phpinfo();
+/*phpinfo();
 die();
-/*use Mohamedecorot\Guestbook\GuestBook;*/
-use Mohamedecorot\Guestbook\Message;
+use Mohamedecorot\Guestbook\GuestBook;*/
+require 'vendor/autoload.php';
+use App\Guestbook\{
+    GuestBook,
+    Message
+};
 
-require_once 'classes/Message.php';
+/*require_once 'classes/Message.php';
 require_once 'classes/GuestBook.php';
-require_once 'classes/contact/Message.php';
+require_once 'classes/contact/Message.php';*/
 
 $errors = null;
 $success = false;

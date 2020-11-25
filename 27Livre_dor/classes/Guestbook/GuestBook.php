@@ -1,11 +1,7 @@
 <?php
 namespace App\Guestbook;
 
-use Mohamedecorot\Guestbook\Message;
-
-require_once 'Message.php';
-
-
+use App\Guestbook\Message;
 
 class GuestBook {
 
