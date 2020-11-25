@@ -1,6 +1,8 @@
 <?php
 
+use dump;
 use App\Post;
+use Symfony\Component\VarDumper\VarDumper;
 
 require_once '../vendor/autoload.php';
 $pdo = new PDO('sqlite:../data.db', null, null, [
@@ -40,6 +42,7 @@ require '../elements/header.php';
     <?php else: ?>
         <ul>
             <?php foreach($posts as $post): ?>
+                <?php //dump($post); ?>
                 <h3><a href="/blog/edit.php?id=<?= $post->id ?>"><?= htmlentities($post->name) ?></a></h3>
                 <p class="small text-muted">Ecrit le <?= $post->created_at->format('d/m/Y à H:i') ?>)</p>
                 <p>
