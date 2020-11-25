@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use Parsedown;
+
 class Post {
 
     public $id;
@@ -21,5 +23,12 @@ class Post {
     public function getExcerpt(): string
     {
         return substr($this->content, 0, 150);
+    }
+
+    public function getBody(): string
+    {
+        $parseDown = new Parsedown();
+        $parseDown->setSafeMode(true);
+        return $parseDown->text($this->content);
     }
 }
