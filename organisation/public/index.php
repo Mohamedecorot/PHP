@@ -1,15 +1,24 @@
 <?php
 require '../vendor/autoload.php';
-require '../elements/header.php';
+//require '../elements/header.php';
 $uri = $_SERVER['REQUEST_URI'];
-if($uri === '/nous-contacter') {
-    require '../templates/contact.php';
-} elseif ($uri === '/') {
-    require '../templates/home.php';
+$router = new AltoRouter();
+
+$router->map('GET', '/', 'home');
+$router->map('GET', '/nous-contacter', 'contact', 'contact');
+$router->map('GET', '/blog/[*:slug]-[i:id]', 'blog/article', 'article');
+
+$match = $router->match();
+if (is_array($match)) {
+    require '../elements/header.php';
+    if (is_callable($match['target'])) {
+        call_user_func_array($match['target'], $match['params']);
+    } else {
+        $params = $match['params'];
+        require "../templates/{$match['target']}.php";
+    }
+    require '../elements/footer.php';
 } else {
     echo 404;
 }
-
-require '../elements/footer.php'
-
-?>
+//require '../elements/footer.php'
