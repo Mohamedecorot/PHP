@@ -1,12 +1,13 @@
 <?php
 require '../vendor/autoload.php';
-
-$page = $_GET['page'] ?? '404';
 require '../elements/header.php';
-if ($page === 'blog'){
-    require 'blog/index.php';
-} elseif ($page === '404') {
-    require 'errors/404.php';
+$uri = $_SERVER['REQUEST_URI'];
+if($uri === '/nous-contacter') {
+    require '../templates/contact.php';
+} elseif ($uri === '/') {
+    require '../templates/home.php';
+} else {
+    echo 404;
 }
 
 require '../elements/footer.php'
