@@ -1,24 +1,22 @@
 <?php
 require '../vendor/autoload.php';
-//require '../elements/header.php';
+
 $uri = $_SERVER['REQUEST_URI'];
 $router = new AltoRouter();
 
-$router->map('GET', '/', 'home');
-$router->map('GET', '/nous-contacter', 'contact', 'contact');
-$router->map('GET', '/blog/[*:slug]-[i:id]', 'blog/article', 'article');
+require '../config/route.php' ;
 
 $match = $router->match();
 if (is_array($match)) {
-    require '../elements/header.php';
     if (is_callable($match['target'])) {
         call_user_func_array($match['target'], $match['params']);
     } else {
         $params = $match['params'];
+        ob_start(); //demarre la session de bufferisation : enclenche la temporisation de sortie
         require "../templates/{$match['target']}.php";
+        $pageContent = ob_get_clean(); //lit le contenu courant de sortie puis l'efface
     }
-    require '../elements/footer.php';
+    require '../elements/layout.php';
 } else {
     echo 404;
 }
-//require '../elements/footer.php'
