@@ -4,7 +4,15 @@ $pdo = new PDO("sqlite:./products.db", null, null, [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ]);
-$products = $pdo->query("SELECT * FROM products LIMIT 20")->fetchAll();
+
+$query = "SELECT * FROM products";
+
+if (!empty($_GET['q'])) {
+    $query .= " WHERE city LIKE \"%" . $_GET['q'] . "%\"";
+}
+$query .= " LIMIT 20";
+
+$products = $pdo->query($query)->fetchAll();
 //dd($products);
 
 ?>
