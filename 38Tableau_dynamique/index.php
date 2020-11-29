@@ -6,13 +6,19 @@ $pdo = new PDO("sqlite:./products.db", null, null, [
 ]);
 
 $query = "SELECT * FROM products";
+$params = [];
 
+
+//Recherche par ville
 if (!empty($_GET['q'])) {
-    $query .= " WHERE city LIKE \"%" . $_GET['q'] . "%\"";
+    $query .= " WHERE city LIKE :city";
+    $params['city'] = '%' . $_GET['q'] . '%';
 }
 $query .= " LIMIT 20";
 
-$products = $pdo->query($query)->fetchAll();
+$statement = $pdo->prepare($query);
+$statement->execute($params);
+$products = $statement->fetchAll();
 //dd($products);
 
 ?>
@@ -31,7 +37,7 @@ $products = $pdo->query($query)->fetchAll();
 
     <form action="" class="mb-4">
         <div class="form-group">
-            <input type="text" class="form-control" name="q" placeholder="Rechercher par ville">
+            <input type="text" class="form-control" name="q" placeholder="Rechercher par ville" value="<?= htmlentities($_GET['q'] ?? null)  ?>">
         </div>
         <button class="btn btn-primary">Rechercher</button>
     </form>
