@@ -26,7 +26,7 @@ if (!empty($_GET['q'])) {
 
 //Organisation
 if (!empty($_GET['sort']) && in_array($_GET['sort'], $sortable)) {
-    $direction = $_GET['q'] ?? 'asc';
+    $direction = $_GET['dir'] ?? 'asc';
     if(!in_array($direction, ['asc', 'desc'])) {
         $direction = 'asc';
     }
@@ -52,12 +52,19 @@ $count = (int)$statement->fetch()['count'];
 $pages = ceil($count/ PER_PAGE);
 
 //pour trier les labels par ordre croissant ou descroissant
-function sortir(string $sortKey, string $label, array $data) {
-    $sort = $data['dir'] ?? null;
-    $direction = $data['sort'] ?? null;
-    $url = http_build_query(array_merge($data, ['sort' => $sortKey, 'dir' => 'asc']));
+function sortir(string $sortKey, string $label, array $data): string {
+    $sort = $data['sort'] ?? null;
+    $direction = $data['dir'] ?? null;
+    $icon= "";
+    if ($sort === $sortKey) {
+        $icon = $direction === 'asc' ? "^" : "v";
+    }
+    $url = http_build_query(array_merge($data, [
+        'sort' => $sortKey,
+        'dir' => $direction === 'asc' && $sort === $sortKey ? 'desc' : 'asc'
+        ]));
         return <<<HTML
-    <a href="?$url">$label</a>
+        <a href="?$url">$label $icon</a>
 HTML;
 }
 
