@@ -1,15 +1,13 @@
 <?php
 
+use App\App;
 use App\Auth;
 
 require '../vendor/autoload.php';
 
-$pdo = new PDO("sqlite:../data.sqlite", null, null, [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = App::getPDO();
 $users = $pdo->query('SELECT * FROM users')->fetchAll();
-$auth = new Auth($pdo);
+$auth = App::getAuth();
 $user = $auth->user();
 ?>
 

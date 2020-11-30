@@ -7,9 +7,12 @@ class Auth {
 
     private $pdo;
 
-    public function __construct(\PDO $pdo)
+    private $loginPath;
+
+    public function __construct(\PDO $pdo, string $loginPath)
     {
         $this->pdo = $pdo;
+        $this->loginPath = $loginPath;
     }
 
     public function user(): ?User
@@ -47,6 +50,15 @@ class Auth {
             return $user;
         }
         return null;
+    }
+
+    public function requireRole(string ...$roles): void
+    {
+        $user = $this->user();
+        if ($user === null || !in_array($user->role, $roles)) {
+            header("Location: {$this->loginPath}?forbid=1");
+            exit();
+        }
     }
 
 }

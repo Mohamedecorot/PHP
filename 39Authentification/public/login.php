@@ -1,23 +1,20 @@
 <?php
 
+use App\App;
 use App\Auth;
 
 require '../vendor/autoload.php';
 
 session_start();
 
-$pdo = new PDO("sqlite:../data.sqlite", null, null, [
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
-$auth = new Auth($pdo);
+$auth = App::getAuth();
 $error = false;
-
+/*
 if($auth->user() !== null) {
     header('Location: index.php');
     exit();
 }
-
+*/
 if (!empty($_POST)) {
     $user = $auth->login($_POST['username'], $_POST['password']);
     if($user) {
@@ -44,6 +41,13 @@ if (!empty($_POST)) {
             Identificant ou mot de passe incorrect
         </div>
     <?php endif ?>
+
+    <?php if(isset($_GET['forbid'])): ?>
+        <div class="alert alert-danger">
+            L'accès à la page est interdit
+        </div>
+    <?php endif ?>
+
     <form action="" method="post">
         <div class="form-group">
             <input type="text" class="form-control" name ="username" placeholder="Pseudo">
@@ -53,6 +57,5 @@ if (!empty($_POST)) {
         </div>
         <button class="btn btn-primary">Se connecter</button>
     </form>
-    <?php dump($_SESSION) ?>
 </body>
 </html>
