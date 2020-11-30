@@ -1,6 +1,7 @@
 <?php
 
 use App\URLHelper;
+use App\TableHelper;
 
 define('PER_PAGE', 20);
 
@@ -14,7 +15,7 @@ $query = "SELECT * FROM products";
 $queryCount = "SELECT COUNT(id) as count FROM products";
 
 $params = [];
-
+$sortable = ["id", "name", "city", "price", "address"];
 
 //Recherche par ville
 if (!empty($_GET['q'])) {
@@ -23,10 +24,19 @@ if (!empty($_GET['q'])) {
     $params['city'] = '%' . $_GET['q'] . '%';
 }
 
+//Organisation
+if (!empty($_GET['sort']) && in_array($_GET['sort'], $sortable)) {
+    $direction = $_GET['q'] ?? 'asc';
+    if(!in_array($direction, ['asc', 'desc'])) {
+        $direction = 'asc';
+    }
+    $query .= " ORDER BY " . $_GET['sort'] . " $direction";
+}
+
+
 //Pagination
 $page = (int)($_GET['p'] ?? 1);
 $offset = ($page -1) * PER_PAGE;
-
 $query .= " LIMIT " . PER_PAGE . " OFFSET $offset" ;
 
 $statement = $pdo->prepare($query);
@@ -40,6 +50,16 @@ $count = (int)$statement->fetch()['count'];
 
 //pour connaitre le nombre de page
 $pages = ceil($count/ PER_PAGE);
+
+//pour trier les labels par ordre croissant ou descroissant
+function sortir(string $sortKey, string $label, array $data) {
+    $sort = $data['dir'] ?? null;
+    $direction = $data['sort'] ?? null;
+    $url = http_build_query(array_merge($data, ['sort' => $sortKey, 'dir' => 'asc']));
+        return <<<HTML
+    <a href="?$url">$label</a>
+HTML;
+}
 
 
 ?>
@@ -66,11 +86,11 @@ $pages = ceil($count/ PER_PAGE);
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prix</th>
-                <th>Ville</th>
-                <th>Adresse</th>
+                <th><?= sortir('id', 'ID', $_GET) ?></th>
+                <th><?= sortir('name', 'Nom', $_GET) ?></th>
+                <th><?= sortir('price', 'Prix', $_GET) ?></th>
+                <th><?= sortir('city', 'Ville', $_GET) ?></th>
+                <th><?= sortir('address', 'Adresse', $_GET) ?></th>
             </tr>
         </thead>
         <tbody>
