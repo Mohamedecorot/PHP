@@ -14,7 +14,17 @@ class Auth {
 
     public function user(): ?User
     {
-
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $id = $_SESSION['auth'] ?? null;
+        if ($id === null) {
+            return null;
+        }
+        $query = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
+        $query->execute([$id]);
+        $user = $query->fetchObject(User::class);
+        return $user ?: null;
     }
 
     public function login(string $username, string $password): ?User
@@ -30,6 +40,10 @@ class Auth {
         }
         // On vérifie password_verify que l'utilsateur corresponde
         if (password_verify($password, $user->password)) {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['auth'] = $user->id;
             return $user;
         }
         return null;

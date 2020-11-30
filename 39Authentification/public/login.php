@@ -4,14 +4,27 @@ use App\Auth;
 
 require '../vendor/autoload.php';
 
+session_start();
+
+$pdo = new PDO("sqlite:../data.sqlite", null, null, [
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+]);
+$auth = new Auth($pdo);
+$error = false;
+
+if($auth->user() !== null) {
+    header('Location: index.php');
+    exit();
+}
+
 if (!empty($_POST)) {
-    $pdo = new PDO("sqlite:../data.sqlite", null, null, [
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
-    $auth = new Auth($pdo);
     $user = $auth->login($_POST['username'], $_POST['password']);
-    dd($user);
+    if($user) {
+        header('Location: index.php?login=1');
+        exit();
+    }
+    $error = true;
 }
 
 ?>
@@ -26,6 +39,11 @@ if (!empty($_POST)) {
 </head>
 <body class="p-4">
     <h1>Se connecter</h1>
+    <?php if($error): ?>
+        <div class="alert alert-danger">
+            Identificant ou mot de passe incorrect
+        </div>
+    <?php endif ?>
     <form action="" method="post">
         <div class="form-group">
             <input type="text" class="form-control" name ="username" placeholder="Pseudo">
@@ -35,5 +53,6 @@ if (!empty($_POST)) {
         </div>
         <button class="btn btn-primary">Se connecter</button>
     </form>
+    <?php dump($_SESSION) ?>
 </body>
 </html>
