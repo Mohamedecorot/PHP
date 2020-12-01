@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\Exception\ForbiddenException;
 use PDO;
 
 class Auth {
@@ -55,9 +56,13 @@ class Auth {
     public function requireRole(string ...$roles): void
     {
         $user = $this->user();
-        if ($user === null || !in_array($user->role, $roles)) {
-            header("Location: {$this->loginPath}?forbid=1");
-            exit();
+        if ($user === null) {
+            throw new ForbiddenException("Vous devez être connecté pour voir cette page");
+        }
+        if (!in_array($user->role, $roles)) {
+            $roles = implode(',', $roles);
+            $role = $user->role;
+            throw new ForbiddenException("Vous n'avez pas le rôle suffisant \"$role\" (attendu : !=$roles)");
         }
     }
 

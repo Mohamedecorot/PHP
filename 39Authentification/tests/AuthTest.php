@@ -66,4 +66,9 @@ class AuthTest extends TestCase {
         $this->auth->requireRole('user2');
         $this->expectNotToPerformAssertions();
     }
+
+    public function testRequireRoleWithoutLoginThrowException () {
+        $this->expectException(App\Exception\ForbiddenException::class);
+        $this->auth->requireRole('user3');
+    }
 }
