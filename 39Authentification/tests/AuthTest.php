@@ -44,4 +44,13 @@ class AuthTest extends TestCase {
         $this->assertObjectHasAttribute("username", $this->auth->login('user1', 'user1'));
         $this->assertEquals(1, $this->session['auth']);
     }
+
+    public function testUserWhenNotConnected () {
+        $this->assertNull($this->auth->user());
+    }
+
+    public function testUserWhenConnectedWithUnexitingUser () {
+        $this->session['auth'] = 11;
+        $this->assertNull($this->auth->user());
+    }
 }
