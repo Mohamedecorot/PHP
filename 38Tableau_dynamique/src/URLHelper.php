@@ -10,6 +10,6 @@ class URLHelper {
 
     public static function withParams($data, array $params): string
     {
-        return http_build_query(array_merge($data, $params));
+        return http_build_query(array_merge($params, $data));
     }
 }
