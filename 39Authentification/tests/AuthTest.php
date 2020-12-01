@@ -34,4 +34,9 @@ class AuthTest extends TestCase {
         $this->assertNull($this->auth->login('aze', 'aze'));
     }
 
+    public function testLoginWithBadPassword()
+    {
+        $this->assertNull($this->auth->login('user1', 'aze'));
+    }
+
 }
