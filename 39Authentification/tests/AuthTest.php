@@ -39,4 +39,9 @@ class AuthTest extends TestCase {
         $this->assertNull($this->auth->login('user1', 'aze'));
     }
 
+    public function testLogininSuccess()
+    {
+        $this->assertObjectHasAttribute("username", $this->auth->login('user1', 'user1'));
+        $this->assertEquals(1, $this->session['auth']);
+    }
 }
