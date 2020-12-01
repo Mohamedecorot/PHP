@@ -53,4 +53,6 @@ class AuthTest extends TestCase {
         $this->session['auth'] = 11;
         $this->assertNull($this->auth->user());
     }
+
+
 }
