@@ -1,0 +1,1 @@
+C:30:"PHPUnit\Runner\TestResultCache":320:{a:2:{s:7:"defects";a:3:{s:34:"AuthTest::testLoginWithBadUsername";i:4;s:34:"AuthTest::testLoginWithBadPassword";i:4;s:28:"AuthTest::testLogininSuccess";i:4;}s:5:"times";a:3:{s:34:"AuthTest::testLoginWithBadUsername";d:0.007;s:34:"AuthTest::testLoginWithBadPassword";d:0.007;s:28:"AuthTest::testLogininSuccess";d:0.006;}}}

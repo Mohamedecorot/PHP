@@ -9,10 +9,13 @@ class Auth {
 
     private $loginPath;
 
-    public function __construct(\PDO $pdo, string $loginPath)
+    private $session;
+
+    public function __construct(\PDO $pdo, string $loginPath, array &$session)
     {
         $this->pdo = $pdo;
         $this->loginPath = $loginPath;
+        $this->session = &$session;
     }
 
     public function user(): ?User
@@ -43,10 +46,7 @@ class Auth {
         }
         // On vérifie password_verify que l'utilsateur corresponde
         if (password_verify($password, $user->password)) {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION['auth'] = $user->id;
+            $this->session['auth'] = $user->id;
             return $user;
         }
         return null;
