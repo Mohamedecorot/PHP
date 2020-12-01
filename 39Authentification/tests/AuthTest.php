@@ -71,4 +71,9 @@ class AuthTest extends TestCase {
         $this->expectException(App\Exception\ForbiddenException::class);
         $this->auth->requireRole('user3');
     }
+
+    public function testRequireRoleThrowException () {
+        $this->expectException(App\Exception\ForbiddenException::class);
+        $this->session['auth'] = 2;
+        $this->auth->requireRole('user2');
 }
