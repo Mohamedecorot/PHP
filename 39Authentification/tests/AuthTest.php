@@ -54,5 +54,10 @@ class AuthTest extends TestCase {
         $this->assertNull($this->auth->user());
     }
 
-
+    public function testUserWhenConnected () {
+        $this->session['auth'] = 4;
+        $user = $this->auth->user();
+        $this->assertIsObject($user);
+        $this->assertEquals("user4", $user->username);
+    }
 }
