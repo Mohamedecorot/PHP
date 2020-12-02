@@ -13,7 +13,9 @@ class QueryBuilder {
 
     private $where;
 
-    private $field = [*];
+    private $fields = ["*"];
+
+    private $params = [];
 
     public function from (string $table, string $alias = null): self
     {
@@ -58,6 +60,7 @@ class QueryBuilder {
 
     public function setParam (string $key, $value): self
     {
+        $this->params[$key] = $value;
         return $this;
     }
 
@@ -91,5 +94,12 @@ class QueryBuilder {
             $sql .= " OFFSET " . $this->offset;
         }
         return $sql;
+    }
+
+    public function fetch(PDO $pdo, string $field): string
+    {
+        $query = $pdo->prepare($this->toSQL());
+        $query->execute($this->params);
+        return $query->fetch()[$field];
     }
 }
