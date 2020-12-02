@@ -41,6 +41,11 @@ class QueryBuilder {
         return $this;
     }
 
+    public function page (int $page): self
+    {
+        return $this->offset($this->limit * ($page - 1));
+    }
+
     public function toSQL(): string
     {
         $sql = "SELECT * FROM {$this->from}";
