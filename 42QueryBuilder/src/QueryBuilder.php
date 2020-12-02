@@ -13,6 +13,8 @@ class QueryBuilder {
 
     private $where;
 
+    private $field = [*];
+
     public function from (string $table, string $alias = null): self
     {
         $this->from = $alias === null ? $table : "$table $alias";
@@ -59,9 +61,16 @@ class QueryBuilder {
         return $this;
     }
 
+    public function select (string ...$fields): self
+    {
+        $this->fields = $fields;
+        return $this;
+    }
+
     public function toSQL(): string
     {
-        $sql = "SELECT * FROM {$this->from}";
+        $field = implode(', ', $this->fields);
+        $sql = "SELECT $field FROM {$this->from}";
         if ($this->where) {
             $sql .= " WHERE " . $this->where;
         }
