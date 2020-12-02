@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use PDO;
+
 class QueryBuilder {
 
     private $from;
@@ -96,10 +98,14 @@ class QueryBuilder {
         return $sql;
     }
 
-    public function fetch(PDO $pdo, string $field): string
+    public function fetch(PDO $pdo, string $field): ?string
     {
         $query = $pdo->prepare($this->toSQL());
         $query->execute($this->params);
-        return $query->fetch()[$field];
+        $result = $query->fetch();
+        if ($result === false) {
+            return null;
+        }
+        return $result[$field] ?? null;
     }
 }
