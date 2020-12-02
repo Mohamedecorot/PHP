@@ -11,6 +11,8 @@ class QueryBuilder {
 
     private $offset;
 
+    private $where;
+
     public function from (string $table, string $alias = null): self
     {
         $this->from = $alias === null ? $table : "$table $alias";
@@ -46,9 +48,23 @@ class QueryBuilder {
         return $this->offset($this->limit * ($page - 1));
     }
 
+    public function where (string $where): self
+    {
+        $this->where = $where;
+        return $this;
+    }
+
+    public function setParam (string $key, $value): self
+    {
+        return $this;
+    }
+
     public function toSQL(): string
     {
         $sql = "SELECT * FROM {$this->from}";
+        if ($this->where) {
+            $sql .= " WHERE " . $this->where;
+        }
         if (!empty($this->order)) {
             $sql .= " ORDER BY " . implode(', ', $this->order);
         }
