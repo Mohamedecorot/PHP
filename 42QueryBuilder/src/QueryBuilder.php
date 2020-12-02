@@ -63,7 +63,11 @@ class QueryBuilder {
 
     public function select (string ...$fields): self
     {
-        $this->fields = $fields;
+        if ($this->fields === ['*']) {
+            $this->fields = $fields;
+        } else {
+            $this->fields = array_merge($this->fields, $fields);
+        }
         return $this;
     }
 
