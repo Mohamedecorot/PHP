@@ -108,4 +108,9 @@ class QueryBuilder {
         }
         return $result[$field] ?? null;
     }
+
+    public function count(PDO $pdo): int
+    {
+        return (int)$this->select('COUNT(id) count')->fetch($pdo, 'count');
+    }
 }
