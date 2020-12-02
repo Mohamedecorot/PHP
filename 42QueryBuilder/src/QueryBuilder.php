@@ -61,8 +61,11 @@ class QueryBuilder {
         return $this;
     }
 
-    public function select (string ...$fields): self
+    public function select (...$fields): self
     {
+        if(is_array($fields[0])) {
+            $fields = $fields[0];
+        }
         if ($this->fields === ['*']) {
             $this->fields = $fields;
         } else {
