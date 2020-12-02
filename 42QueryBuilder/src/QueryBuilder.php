@@ -111,6 +111,6 @@ class QueryBuilder {
 
     public function count(PDO $pdo): int
     {
-        return (int)$this->select('COUNT(id) count')->fetch($pdo, 'count');
+        return (int)(clone $this)->select('COUNT(id) count')->fetch($pdo, 'count');
     }
 }
