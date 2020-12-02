@@ -9,6 +9,8 @@ class QueryBuilder {
 
     private $limit;
 
+    private $offset;
+
     public function from (string $table, string $alias = null): self
     {
         $this->from = $alias === null ? $table : "$table $alias";
@@ -32,6 +34,13 @@ class QueryBuilder {
         return $this;
     }
 
+
+    public function offset(int $offset): self
+    {
+        $this->offset = $offset;
+        return $this;
+    }
+
     public function toSQL(): string
     {
         $sql = "SELECT * FROM {$this->from}";
@@ -40,6 +49,9 @@ class QueryBuilder {
         }
         if ($this->limit > 0) {
             $sql .= " LIMIT " . $this->limit;
+        }
+        if ($this->offset !== null > 0) {
+            $sql .= " OFFSET " . $this->offset;
         }
         return $sql;
     }
