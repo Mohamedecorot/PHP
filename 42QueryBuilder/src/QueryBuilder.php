@@ -7,6 +7,7 @@ class QueryBuilder {
 
     private $order = [];
 
+    private $limit;
 
     public function from (string $table, string $alias = null): self
     {
@@ -25,11 +26,21 @@ class QueryBuilder {
         return $this;
     }
 
+    public function limit(int $limit): self
+    {
+        $this->limit = $limit;
+        return $this;
+    }
+
     public function toSQL(): string
     {
         $sql = "SELECT * FROM {$this->from}";
         if (!empty($this->order)) {
             $sql .= " ORDER BY " . implode(', ', $this->order);
         }
+        if ($this->limit > 0) {
+            $sql .= " LIMIT " . $this->limit;
+        }
+        return $sql;
     }
 }
