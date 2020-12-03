@@ -3,6 +3,7 @@
 use App\QueryBuilder;
 use App\URLHelper;
 use App\TableHelper;
+use App\Table;
 
 define('PER_PAGE', 20);
 
@@ -36,6 +37,14 @@ $query
     ->limit(PER_PAGE)
     ->page($_GET['p'] ?? 1);
 $products = $query->fetchAll();
+$table = new Table($query, $_GET);
+$table->sortable('id', 'ville');
+$table->setColumns([
+    'id' => 'ID',
+    'name' => 'Nom',
+    'city' => 'Ville'
+]);
+
 
 //pour connaitre le nombre de page
 $pages = ceil($count/ PER_PAGE);
@@ -78,6 +87,8 @@ HTML;
         </div>
         <button class="btn btn-primary">Rechercher</button>
     </form>
+
+    <?php $table->render() ?>
 
     <table class="table table-striped">
         <thead>
