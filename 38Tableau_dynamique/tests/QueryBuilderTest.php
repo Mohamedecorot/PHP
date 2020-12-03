@@ -7,7 +7,7 @@ final class QueryBuilderTest extends TestCase
 
     public function getBuilder(): \App\QueryBuilder
     {
-        return new \App\QueryBuilder($pdo);
+        return new \App\QueryBuilder();
     }
 
     public function testSimpleQuery()
@@ -55,13 +55,12 @@ final class QueryBuilderTest extends TestCase
 
     public function testOffsetWithoutLimit()
     {
-        $this->expectedException(\Exception::class);
+        $this->expectException(\Exception::class);
         $this->getBuilder()
             ->from("users")
             ->offset(3)
             ->orderBy("id", "DESC")
             ->toSQL();
-        $this->assertEquals("SELECT * FROM users ORDER BY id DESC LIMIT 10 OFFSET 3", $q);
     }
 
     public function testPage()
@@ -146,7 +145,7 @@ final class QueryBuilderTest extends TestCase
             ->where("name = :name")
             ->setParam("name", "azazazazaz")
             ->fetchAll();
-        $this->assertEmpty($products[);
+        $this->assertEmpty($products[]);
     }
     public function testFetchWithInvalidRow()
     {

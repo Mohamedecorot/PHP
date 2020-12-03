@@ -1,7 +1,7 @@
 <?php
 namespace App;
 
-use Exception;
+use \Exception;
 use PDO;
 
 class QueryBuilder {

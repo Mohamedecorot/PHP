@@ -24,11 +24,15 @@ if (!empty($_GET['q'])) {
 }
 
 $table = new Table($query, $_GET);
-$table->sortable('id', 'city');
+$table->sortable('id', 'city', 'price');
+$table->format('price', function ($value) {
+    return number_format($value, 0, '', ' ') . ' ' . "€";
+});
 $table->Columns([
     'id' => 'ID',
     'name' => 'Nom',
-    'city' => 'Ville'
+    'city' => 'Ville',
+    'price' => 'Prix'
 ]);
 
 ?>

@@ -13,6 +13,8 @@ class Table {
 
     private $limit = 20;
 
+    private $formatters = [];
+
     public function __construct(QueryBuilder $query, array $get)
     {
         $this->query = $query;
@@ -23,8 +25,13 @@ class Table {
         $this->sortable = $sortable;
     }
 
-    public function columns(array $columns) {
+    public function columns(array $columns)
+    {
         $this->columns = $columns;
+    }
+
+    public function format(string $key, callable $function) {
+        $this->formatters[$key] = $function;
     }
 
     //pour trier les labels par ordre croissant ou descroissant
@@ -45,6 +52,13 @@ class Table {
             return <<<HTML
             <a href="?$url">{$this->columns[$sortKey]} $icon</a>
 HTML;
+    }
+
+    public function td (string $key, array $item) {
+        if(isset($this->formatters[$key])) {
+            return $this->formatters[$key]($item[$key]);
+        }
+        return $item[$key];
     }
 
     public function render()
@@ -77,7 +91,7 @@ HTML;
                 <?php foreach($items as $item): ?>
                 <tr>
                     <?php foreach($this->columns as $key => $columns): ?>
-                        <td><?= $item[$key] ?></td>
+                        <td><?= $this->td($key, $item) ?></td>
                     <?php endforeach ?>
                 </tr>
                 <?php endforeach ?>
