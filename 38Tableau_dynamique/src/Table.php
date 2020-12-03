@@ -21,17 +21,22 @@ class Table {
         $this->get = $get;
     }
 
-    public function sortable(string ...$sortable) {
+    public function sortable(string ...$sortable): self
+    {
         $this->sortable = $sortable;
+        return $this;
     }
 
-    public function columns(array $columns)
+    public function columns(array $columns): self
     {
         $this->columns = $columns;
+        return $this;
     }
 
-    public function format(string $key, callable $function) {
+    public function format(string $key, callable $function): self
+    {
         $this->formatters[$key] = $function;
+        return $this;
     }
 
     //pour trier les labels par ordre croissant ou descroissant
