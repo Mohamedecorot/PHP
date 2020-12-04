@@ -1,1 +1,6 @@
 C:\xampp\php\
+
+alter user 'root'@'localhost' identified with mysql_native_password by 'root'; 
+ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root');
+
+resurgence
