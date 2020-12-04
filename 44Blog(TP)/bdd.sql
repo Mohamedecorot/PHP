@@ -7,3 +7,9 @@ CREATE TABLE post (
     PRIMARY KEY (id)
 )
 
+CREATE TABLE category (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+)
