@@ -24,7 +24,7 @@ for ($i = 0; $i < 50; $i++) {
     $posts[] = $pdo->lastInsertId();
 }
 
-for ($i = 0; $i < 50; $i++) {
+for ($i = 0; $i < 5; $i++) {
     $pdo->exec("INSERT INTO category SET name='{$faker->sentence(3)}', slug='{$faker->slug}'");
     $categories[] = $pdo->lastInsertId();
 }
