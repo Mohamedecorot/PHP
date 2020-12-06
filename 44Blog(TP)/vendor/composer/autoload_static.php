@@ -27,6 +27,10 @@ class ComposerStaticInit540e011af59a97e3f4e42c5a229fc83d
         array (
             'Psr\\Log\\' => 8,
         ),
+        'F' => 
+        array (
+            'Faker\\' => 6,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -53,6 +57,10 @@ class ComposerStaticInit540e011af59a97e3f4e42c5a229fc83d
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Faker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
         ),
         'App\\' => 
         array (
