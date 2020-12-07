@@ -1,11 +1,10 @@
 <?php
+use App\Connection;
 use App\Model\Post;
 use App\Helpers\Text;
 
 $title = 'Mon blog';
-$pdo = new PDO('mysql:dbname=tutoblog;host=127.0.0.1', 'root', 'root', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
+$pdo = Connection::getPDO();
 
 $page = $_GET['page'] ?? 1;
 

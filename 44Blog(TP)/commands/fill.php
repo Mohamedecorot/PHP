@@ -1,11 +1,12 @@
 <?php
+
+use App\Connection;
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $faker = Faker\Factory::create('fr_FR');
 
-$pdo = new PDO('mysql:dbname=tutoblog;host=127.0.0.1', 'root', 'root', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
+$pdo = Connection::getPDO();
+
 
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
 //on vide les tables
