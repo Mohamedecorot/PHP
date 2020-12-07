@@ -8,6 +8,8 @@ class Post {
 
     private $id;
 
+    private $slug;
+
     private $name;
 
     private $content;
@@ -32,5 +34,15 @@ class Post {
     public function getCreatedAt (): DateTime
     {
         return new DateTime($this->created_at);
+    }
+
+    public function getID (): ?int
+    {
+        return $this->id;
+    }
+
+    public function getSlug (): ?string
+    {
+        return $this->slug;
     }
 }
