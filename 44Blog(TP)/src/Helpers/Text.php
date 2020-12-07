@@ -1,6 +1,8 @@
 <?php
 namespace App\Helpers;
 
+use \DateTime;
+
 class Text {
 
     public static function excerpt(string $content, int $limit = 60)
@@ -11,4 +13,5 @@ class Text {
         $lastSpace = mb_strpos($content, ' ', $limit);
         return mb_substr($content, 0, $lastSpace) . '...';
     }
+
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 
+use DateTime;
 use App\Helpers\Text;
 
 class Post {
@@ -28,4 +29,8 @@ class Post {
         return nl2br(htmlentities(Text::excerpt($this->content, 60)));
     }
 
+    public function getCreatedAt (): DateTime
+    {
+        return new DateTime($this->created_at);
+    }
 }
