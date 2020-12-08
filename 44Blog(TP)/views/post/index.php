@@ -7,11 +7,7 @@ use App\Helpers\Text;
 $title = 'Mon blog';
 $pdo = Connection::getPDO();
 
-
-$currentPage = URL::getInt('page', 1);
-if($currentPage <= 0) {
-    throw new Exception('Numero de page invalide');
-}
+$currentPage = URL::getPositiveInt('page', 1);
 
 //nombre d'article:
 $count = (int)$pdo->query('SELECT COUNT(id) FROM post')->fetch(PDO::FETCH_NUM)[0];
