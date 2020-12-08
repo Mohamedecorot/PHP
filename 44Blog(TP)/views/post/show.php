@@ -19,6 +19,13 @@ if ($post === false) {
 
 if($post->getSlug() !== $slug) {
     $url = $router->url('post', ['slug' => $post->getSlug(), 'id' => $id]);
-    http_response_code(301);
-    header('Location: ' . $url);
+    //http_response_code(301);
+    //header('Location: ' . $url);
 }
+
+?>
+
+
+<h5><?= e($post->getName()) ?></h5>
+<p class="text-muted"><?= $post->getCreatedAt()->format('d F Y H:i') ?></p>
+<p><?= $post->getFormattedContent() ?></p>
