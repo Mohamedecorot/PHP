@@ -1,18 +1,14 @@
 <?php
+use App\URL;
+use App\Connection;
 use App\Model\Post;
 use App\Helpers\Text;
-use App\Connection;
 
 $title = 'Mon blog';
 $pdo = Connection::getPDO();
 
-$page = $_GET['page'] ?? 1;
 
-if(!filter_var($page, FILTER_VALIDATE_INT)) {
-    throw new Exception ('Numéro de page invalide');
-}
-
-$currentPage = (int)$page;
+$currentPage = URL::getInt('page', 1);
 if($currentPage <= 0) {
     throw new Exception('Numero de page invalide');
 }
