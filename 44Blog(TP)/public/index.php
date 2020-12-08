@@ -17,8 +17,9 @@ if(isset($_GET['page']) && $_GET['page'] === '1') {
         $uri = $uri . '?' . $query;
     }
     http_response_code(301);
-    header('Location: ' .$uri);
+    header('Location: ' . $uri);
     exit();
+
 }
 
 $router = new App\Router(dirname(__DIR__) . '/views');

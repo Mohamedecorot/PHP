@@ -17,11 +17,6 @@ if($currentPage <= 0) {
     throw new Exception('Numero de page invalide');
 }
 
-if ($page === '1') {
-    header('Location: '.$router->url('home'));
-    http_response_code(301);
-    exit();
-}
 //nombre d'article:
 $count = (int)$pdo->query('SELECT COUNT(id) FROM post')->fetch(PDO::FETCH_NUM)[0];
 $perPage = 12;
