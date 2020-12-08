@@ -1,6 +1,7 @@
 <?php
 
 use App\Connection;
+use App\model\Category;
 use App\Model\Post;
 
 $id= (int)$params['id'];
@@ -23,9 +24,27 @@ if($post->getSlug() !== $slug) {
     //header('Location: ' . $url);
 }
 
+$query = $pdo->prepare('SELECT * FROM post_category pc WHERE pc.post_id = :id');
+
+
+$query = $pdo->prepare('
+SELECT c.id, c.slug, c.name
+FROM post_category pc
+JOIN category c ON pc.category_id = c.id
+WHERE pc.post_id = :id');
+$query->execute(['id' => $post->getId()]);
+$query->setFetchMode(PDO::FETCH_CLASS, Category::class);
+$categories = $query->fetchAll();
+
 ?>
 
-
-<h5><?= e($post->getName()) ?></h5>
+<h1><?= e($post->getName()) ?></h1>
 <p class="text-muted"><?= $post->getCreatedAt()->format('d F Y H:i') ?></p>
+<?php foreach($categories as $k => $category):
+    if ($k > 0):
+        echo ',';
+    endif;
+    $caterogy_url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
+    ?><a href="<?= $caterogy_url ?>"><?= e($category->getName()) ?></a><?php
+endforeach ?>
 <p><?= $post->getFormattedContent() ?></p>
