@@ -27,7 +27,7 @@ if($category->getSlug() !== $slug) {
 
 $title = "Catégorie {$category->getName()}";
 
-$paginationQuery = new PaginatedQuery(
+$paginatedQuery = new PaginatedQuery(
     "SELECT p.*
         FROM post p
         JOIN post_category pc ON pc.post_id = p.id
@@ -38,7 +38,8 @@ $paginationQuery = new PaginatedQuery(
 );
 
 /** @var Post[] */
-$posts = $paginationQuery->getItems();
+$posts = $paginatedQuery->getItems();
+//dd($posts);
 $link = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
 ?>
 
@@ -53,6 +54,6 @@ $link = $router->url('category', ['id' => $category->getID(), 'slug' => $categor
 </div>
 
 <div class="d-flex justify-content-between my-4">
-    <?= $paginationQuery->previousLink($link) ?>
-
+    <?= $paginatedQuery->previousLink($link) ?>
+    <?= $paginatedQuery->nextLink($link) ?>
 </div>
