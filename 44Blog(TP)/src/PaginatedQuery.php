@@ -51,7 +51,7 @@ HTML;
         $currentPage = $this->getCurrentPage();
         $pages = $this->getPages();
         if ($currentPage >= $pages) return null;
-        $link .= "?page" . ($currentPage + 1);
+        $link .= "?page=" . ($currentPage + 1);
         return <<<HTML
             <a href="{$link}" class="btn btn-primary ml-auto">Page suivante &raquo;</a>
 HTML;
