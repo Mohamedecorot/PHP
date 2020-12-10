@@ -9,6 +9,8 @@ class Category {
 
     private $name;
 
+    private $post_id;
+
     public function getID (): ?int {
         return $this->id;
     }
@@ -21,5 +23,10 @@ class Category {
     public function getName (): ?string
     {
         return $this->name;
+    }
+
+    public function getPostID (): ?int
+    {
+        return $this->post_id;
     }
 }
