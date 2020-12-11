@@ -1,11 +1,17 @@
 <?php
-$categories = [];
-foreach($post->getCategories() as $category) {
+// $categories = [];
+// foreach($post->getCategories() as $category) {
+//     $url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
+//     $categories[] = <<<HTML
+//      <a href="{$url}">{$category->getName()}</a>
+// HTML;
+//    }
+$categories = array_map(function ($category) use ($router) {
     $url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
-    $categories[] = <<<HTML
+    return <<<HTML
      <a href="{$url}">{$category->getName()}</a>
 HTML;
-    }
+}, $post->getCategories());
 ?>
 <div class="card mb-3">
     <div class="card-body">

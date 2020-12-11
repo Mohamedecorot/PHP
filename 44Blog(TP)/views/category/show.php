@@ -39,6 +39,7 @@ $paginatedQuery = new PaginatedQuery(
 /** @var Post[] */
 $posts = $paginatedQuery->getItems(Post::class);
 //dd($posts);
+
 $link = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
 ?>
 
