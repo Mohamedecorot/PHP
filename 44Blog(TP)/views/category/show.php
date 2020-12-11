@@ -4,20 +4,14 @@ use App\Connection;
 use App\Model\Post;
 use App\model\Category;
 use App\PaginatedQuery;
+use App\Table\CategoryTable;
 
 $id= (int)$params['id'];
 $slug= (int)$params['slug'];
 
 $pdo = Connection::getPDO();
-$query = $pdo->prepare('SELECT * FROM category WHERE id = :id');
-$query->execute(['id' => $id]);
-$query->setFetchMode(PDO::FETCH_CLASS, Category::class);
-/** @var Category|false */
-$category = $query->fetch();
-
-if ($category === false) {
-    throw new Exception('Aucun catégorie ne correspond à cet ID');
-}
+$categoryTable = new CategoryTable($pdo);
+$category = $categoryTable->find($id);
 
 if($category->getSlug() !== $slug) {
     $url = $router->url('category', ['slug' => $category->getSlug(), 'id' => $id]);

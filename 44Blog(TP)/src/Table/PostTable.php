@@ -3,17 +3,11 @@ namespace App\Table;
 
 use PDO;
 use App\Model\Post;
+use App\Table\Table;
 use App\model\Category;
 use App\PaginatedQuery;
 
-class PostTable {
-
-    private $pdo;
-
-    public function __construct(\PDO $pdo)
-    {
-        $this->pdo = $pdo;
-    }
+class PostTable extends Table {
 
     public function findPaginated ()
     {
