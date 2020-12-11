@@ -17,20 +17,22 @@ class PostTable extends Table {
             $this->pdo
         );
         $posts = $paginatedQuery->getItems(Post::class);
-        $postsByID = [];
-        foreach ($posts as $post) {
-            $postsByID[$post->getID()] = $post;
-        }
-        $categories = $this->pdo
-            ->query('SELECT c.*, pc.post_id
-                    FROM post_category pc
-                    JOIN category c ON c.id = pc.category_id
-                    WHERE pc.post_id IN (' . implode(',', array_keys($postsByID)) . ')'
-                    )->fetchAll(PDO::FETCH_CLASS, Category::class);
+        (new CategoryTable($this->pdo))->hydratePosts($posts);
+        return [$posts, $paginatedQuery];
+    }
 
-        foreach ($categories as $category) {
-            $postsByID[$category->getPostID()]->addCategory($category);
-        }
+    public function findPaginatedForCategory (int $categoryID)
+    {
+        $paginatedQuery = new PaginatedQuery(
+            "SELECT p.*
+                FROM post p
+                JOIN post_category pc ON pc.post_id = p.id
+                WHERE pc.category_id = {$categoryID}
+                ORDER BY created_at DESC",
+            "SELECT COUNT(category_id) FROM post_category WHERE category_id = {$categoryID}"
+        );
+        $posts = $paginatedQuery->getItems(Post::class);
+        (new CategoryTable($this->pdo))->hydratePosts($posts);
         return [$posts, $paginatedQuery];
     }
 

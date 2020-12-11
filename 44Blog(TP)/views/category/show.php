@@ -4,14 +4,14 @@ use App\Connection;
 use App\Model\Post;
 use App\model\Category;
 use App\PaginatedQuery;
+use App\Table\PostTable;
 use App\Table\CategoryTable;
 
 $id= (int)$params['id'];
 $slug= (int)$params['slug'];
 
 $pdo = Connection::getPDO();
-$categoryTable = new CategoryTable($pdo);
-$category = $categoryTable->find($id);
+$category = (new CategoryTable($pdo))->find($id);
 
 if($category->getSlug() !== $slug) {
     $url = $router->url('category', ['slug' => $category->getSlug(), 'id' => $id]);
@@ -21,33 +21,8 @@ if($category->getSlug() !== $slug) {
 
 $title = "Catégorie {$category->getName()}";
 
-$paginatedQuery = new PaginatedQuery(
-    "SELECT p.*
-        FROM post p
-        JOIN post_category pc ON pc.post_id = p.id
-        WHERE pc.category_id = {$category->getID()}
-        ORDER BY created_at DESC",
-    "SELECT COUNT(category_id) FROM post_category WHERE category_id = {$category->getID()}"
-);
+[$posts, $paginatedQuery] = (new PostTable($pdo))->findPaginatedForCategory($category->getID());
 
-/** @var Post[] */
-$posts = $paginatedQuery->getItems(Post::class);
-//dd($posts);
-$postsByID = [];
-foreach ($posts as $post) {
-    $postsByID[$post->getID()] = $post;
-}
-$categories = $pdo
-    ->query('SELECT c.*, pc.post_id
-             FROM post_category pc
-             JOIN category c ON c.id = pc.category_id
-             WHERE pc.post_id IN (' . implode(',', array_keys($postsByID)) . ')'
-            )->fetchAll(PDO::FETCH_CLASS, Category::class);
-$link = $router->url('home');
-
-foreach ($categories as $category) {
-    $postsByID[$category->getPostID()]->addCategory($category);
-}
 $link = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
 ?>
 
