@@ -9,6 +9,12 @@ $link = $router->url('admin_posts');
 [$posts, $pagination] = (new PostTable($pdo))->findPaginated();
 ?>
 
+<?php if (isset($_GET['delete'])): ?>
+<div class="alert alert-success">
+    L'article a bien été supprimé
+</div>
+<?php endif ?>
+
 <table class="table table-striped">
     <thead>
         <th>#</th>
