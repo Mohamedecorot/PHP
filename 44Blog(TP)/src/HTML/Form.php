@@ -16,10 +16,17 @@ class Form {
     public function input (string $key, string $label): string
     {
         $value = $this->getValue($key);
+        $inputClass = 'form-control';
+        $invalidFeedback = '';
+        if (isset($this->errors[$key])) {
+            $inputClass .= ' is-invalid';
+            $invalidFeedback = '<div class="invalid-feedback">' . implode('<br>', $this->errors[$key]) . '</div>';
+        }
         return <<<HTML
             <div class="form-group">
                 <label for="fields{key}">{$label}</label>
-                <input type="text" id="fields{key}"  class="form-control" name="{$key}" value="{$value}" required>
+                <input type="text" id="fields{key}"  class="{$inputClass}" name="{$key}" value="{$value}" required>
+                {$invalidFeedback}
             </div>
 HTML;
     }
