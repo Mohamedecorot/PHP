@@ -19,7 +19,7 @@ class Form {
         return <<<HTML
             <div class="form-group">
                 <label for="fields{key}">{$label}</label>
-                <textarea type="text" id="fields{key}"  class="{$this->getInputClass($key)}" name="{$key}" required>{$value}"</textarea>
+                <textarea type="text" id="fields{key}"  class="{$this->getInputClass($key)}" name="{$key}" required>{$value}</textarea>
                 {$this->getErrorFeedback($key)}
             </div>
 HTML;
@@ -37,13 +37,17 @@ HTML;
 HTML;
     }
 
-    private function getValue (string $key)
+    private function getValue (string $key): string
     {
         if (is_array($this->data)) {
             return $this->data[$key] ?? null;
         }
-        $method = 'get' . ucfirst($key);
-        return $this->data->$method();
+        $method = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+        $value = $this->data->$method();
+        if ($value instanceof \DateTimeInterface) {
+            return $value->format('Y-m-d H:i:s');
+        }
+        return $value;
     }
 
     private function getInputClass (string $key): string
