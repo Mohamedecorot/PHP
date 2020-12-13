@@ -3,6 +3,7 @@
 use App\Connection;
 use App\Validator;
 use App\Table\PostTable;
+use App\HTML\Form;
 
 $pdo = Connection::getPDO();
 $postTable = new PostTable($pdo);
@@ -22,6 +23,7 @@ if (!empty($_POST)) {
         $errors = $v->errors();
     }
 }
+$form = new Form($post, $errors);
 ?>
 
 <?php if ($success): ?>
@@ -39,14 +41,8 @@ if (!empty($_POST)) {
 <h1>Editer l'article <?= e($post->getName()) ?></h1>
 
 <form action="" method="POST">
-    <div class="form-group">
-        <label for="name">Titre</label>
-        <input type="text" class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>" name="name" value="<?= e($post->getName()) ?>" >
-    </div>
-    <?php if (isset($errors['name'])): ?>
-    <div class="invalid-feedback">
-        <?= implode('<br>', $errors['name']) ?>
-    </div>
-    <?php endif ?>
+    <?= $form->input('name', 'Titre'); ?>
+    <?= $form->input('slug', 'URL'); ?>
+    <?= $form->textarea('content', 'Contenu'); ?>
     <button class="btn btn-primary">Modifier</button>
 </form>
