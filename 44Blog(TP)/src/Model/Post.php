@@ -35,6 +35,11 @@ class Post {
         return $this;
     }
 
+    public function getContent (): ?string
+    {
+        return $this->content;
+    }
+
     public function getFormattedContent (): ?string
     {
         return nl2br(e($this->content));

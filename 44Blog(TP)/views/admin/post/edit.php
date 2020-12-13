@@ -14,8 +14,8 @@ $errors = [];
 if (!empty($_POST)) {
     Validator::lang('fr');
     $v = new Validator($_POST);
-    $v->rule('required', 'name');
-    $v->rule('lengthBetween', 'name', 3, 200);
+    $v->rule('required', ['name', 'slug']);
+    $v->rule('lengthBetween', ['name', 'slug'], 3, 200);
     if ($v->validate()) {
         $postTable->update($post);
         $success = true;

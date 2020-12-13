@@ -25,15 +25,28 @@ class Form {
         return <<<HTML
             <div class="form-group">
                 <label for="fields{key}">{$label}</label>
-                <input type="text" id="fields{key}"  class="{$inputClass}" name="{$key}" value="{$value}" required>
+                <textarea type="text" id="fields{key}"  class="{$inputClass}" name="{$key}" required>{$value}"</textarea>
                 {$invalidFeedback}
             </div>
 HTML;
     }
 
-    public function textarea (string $name, string $label): string
+    public function textarea (string $key, string $label): string
     {
-        return '';
+        $value = $this->getValue($key);
+        $inputClass = 'form-control';
+        $invalidFeedback = '';
+        if (isset($this->errors[$key])) {
+            $inputClass .= ' is-invalid';
+            $invalidFeedback = '<div class="invalid-feedback">' . implode('<br>', $this->errors[$key]) . '</div>';
+        }
+        return <<<HTML
+            <div class="form-group">
+                <label for="fields{key}">{$label}</label>
+                <input type="text" id="fields{key}"  class="{$inputClass}" name="{$key}" value="{$value}" required>
+                {$invalidFeedback}
+            </div>
+HTML;
     }
 
     private function getValue (string $key)
