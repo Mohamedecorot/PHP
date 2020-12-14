@@ -8,7 +8,6 @@ use App\Table\PostTable;
 use App\Validators\PostValidator;
 
 $errors = [];
-$success = false;
 $post = new Post();
 $post->setCreatedAt(date('Y-m-d H:i:s'));
 
@@ -29,11 +28,6 @@ if (!empty($_POST)) {
 $form = new Form($post, $errors);
 ?>
 
-<?php if ($success): ?>
-<div class="alert alert-success">
-    L'article a bien été modifié
-</div>
-<?php endif ?>
 
 <?php if (!empty($errors)): ?>
     <div class="alert alert-danger">
