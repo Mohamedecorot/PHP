@@ -1,9 +1,10 @@
 <?php
 
-use App\Connection;
-use App\Validator;
-use App\Table\PostTable;
 use App\HTML\Form;
+use App\Validator;
+use App\Connection;
+use App\ObjectHelper;
+use App\Table\PostTable;
 use App\Validators\PostValidator;
 
 $pdo = Connection::getPDO();
@@ -15,11 +16,7 @@ $errors = [];
 if (!empty($_POST)) {
     Validator::lang('fr');
     $v = new PostValidator($_POST, $postTable, $post->getID());
-    $post
-        ->setName($_POST['name'])
-        ->setContent($_POST['content'])
-        ->setSlug($_POST['slug'])
-        ->setCreatedAt($_POST['created_at']);
+    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
     if ($v->validate()) {
         $postTable->update($post);
         $success = true;
