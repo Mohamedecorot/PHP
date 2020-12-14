@@ -23,8 +23,24 @@ final class PostTable extends Table {
             'created' => $post->getCreatedAt()->format('Y-m-d H:i:s')
         ]);
         if ($ok === false) {
-            throw new \Exception("Impossible d'éditer l'article $id dans la table {$this->table}");
+            throw new \Exception("Impossible de modifier l'article $id dans la table {$this->table}");
         }
+    }
+
+    public function create (Post $post): void
+    {
+        $query = $this->pdo->prepare("INSERT INTO {$this->table} SET name = :name, slug = :slug, created_at = :created, content = :content");
+        $ok = $query->execute([
+            'name' => $post->getName(),
+            'slug' => $post->getSlug(),
+            'content' => $post->getContent(),
+            'name' => $post->getName(),
+            'created' => $post->getCreatedAt()->format('Y-m-d H:i:s')
+        ]);
+        if ($ok === false) {
+            throw new \Exception("Impossible de créer l'article  dans la table {$this->table}");
+        }
+        $post->setID($this->pdo->lastInsertId());
     }
 
     public function delete (int $id): void

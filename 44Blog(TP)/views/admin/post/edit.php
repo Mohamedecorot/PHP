@@ -1,7 +1,6 @@
 <?php
 
 use App\HTML\Form;
-use App\Validator;
 use App\Connection;
 use App\ObjectHelper;
 use App\Table\PostTable;
@@ -14,7 +13,6 @@ $success = false;
 $errors = [];
 
 if (!empty($_POST)) {
-    Validator::lang('fr');
     $v = new PostValidator($_POST, $postTable, $post->getID());
     ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
     if ($v->validate()) {
@@ -41,10 +39,4 @@ $form = new Form($post, $errors);
 
 <h1>Editer l'article <?= e($post->getName()) ?></h1>
 
-<form action="" method="POST">
-    <?= $form->input('name', 'Titre'); ?>
-    <?= $form->input('slug', 'URL'); ?>
-    <?= $form->textarea('content', 'Contenu'); ?>
-    <?= $form->input('created_at', 'Date de création'); ?>
-    <button class="btn btn-primary">Modifier</button>
-</form>
+<?php require ('_form.php') ?>
