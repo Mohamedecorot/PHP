@@ -70,7 +70,7 @@ abstract class Table {
     {
         $sqlFields = [];
         foreach ($data as $key => $value) {
-            $sqlFields[] = "$key = :key";
+            $sqlFields[] = "$key = :$key";
         }
         $query = $this->pdo->prepare("INSERT INTO {$this->table} SET " . implode(', ', $sqlFields));
         $ok = $query->execute($data);
@@ -84,9 +84,9 @@ abstract class Table {
     {
         $sqlFields = [];
         foreach ($data as $key => $value) {
-            $sqlFields[] = "$key = :key";
+            $sqlFields[] = "$key = :$key";
         }
-        $query = $this->pdo->prepare("INSERT INTO {$this->table} SET " . implode(', ', $sqlFields) . " WHEERE id = :id");
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET " . implode(', ', $sqlFields) . " WHERE id = :id");
         $ok = $query->execute(array_merge($data, ['id' => $id]));
         if ($ok === false) {
             throw new \Exception("Impossible de modifier l'article  dans la table {$this->table}");

@@ -19,7 +19,7 @@ if (!empty($_POST)) {
     $v = new PostValidator($_POST, $postTable, $post->getID());
     ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
     if ($v->validate()) {
-        $postTable->update($post);
+        $postTable->updatePost($post);
         $success = true;
     } else {
         $errors = $v->errors();

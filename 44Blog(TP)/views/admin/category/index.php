@@ -24,7 +24,7 @@ $items = (new CategoryTable($pdo))->all();
         <th>Titre</th>
         <th>URL</th>
         <th>
-            <a href="<?= $router->url('admin_category_new') ?>" class="btn btn-success">Créer un article</a>
+            <a href="<?= $router->url('admin_category_new') ?>" class="btn btn-success">Créer une catégorie</a>
         </th>
     </thead>
     <tbody>
