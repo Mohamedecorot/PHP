@@ -2,19 +2,19 @@
 
 use App\Auth;
 use App\Connection;
-use App\Table\PostTable;
+use App\Table\CategoryTable;
 
 Auth::check();
 
-$title = "Administration";
+$title = "Gestion des catégories";
 $pdo = Connection::getPDO();
-$link = $router->url('admin_posts');
-[$posts, $pagination] = (new PostTable($pdo))->findPaginated();
+$link = $router->url('admin_categories');
+$items = (new CategoryTable($pdo))->all();
 ?>
 
 <?php if (isset($_GET['delete'])): ?>
 <div class="alert alert-success">
-    L'article a bien été supprimé
+    La catégorie a bien été supprimé
 </div>
 <?php endif ?>
 
@@ -22,24 +22,26 @@ $link = $router->url('admin_posts');
     <thead>
         <th>#</th>
         <th>Titre</th>
+        <th>URL</th>
         <th>
-            <a href="<?= $router->url('admin_post_new') ?>" class="btn btn-success">Créer un article</a>
+            <a href="<?= $router->url('admin_category_new') ?>" class="btn btn-success">Créer un article</a>
         </th>
     </thead>
     <tbody>
-        <?php foreach($posts as $post): ?>
+        <?php foreach($items as $item): ?>
         <tr>
-            <td>#<?= $post->getID() ?></td>
+            <td>#<?= $item->getID() ?></td>
             <td>
-                <a href="<?= $router->url('admin_post', ['id' => $post->getID()]) ?>">
-                <?= e($post->getName()) ?>
+                <a href="<?= $router->url('admin_category', ['id' => $item->getID()]) ?>">
+                <?= e($item->getName()) ?>
                 </a>
             </td>
+            <td><?= $item->getSlug() ?></td>
             <td>
-                <a href="<?= $router->url('admin_post', ['id' => $post->getID()]) ?>" class="btn btn-primary">
+                <a href="<?= $router->url('admin_category', ['id' => $item->getID()]) ?>" class="btn btn-primary">
                 Editer
                 </a>
-                <form action="<?= $router->url('admin_post_delete', ['id' => $post->getID()]) ?>" method="POST"
+                <form action="<?= $router->url('admin_category_delete', ['id' => $item->getID()]) ?>" method="POST"
                 onsubmit="return confirm('Voulez-vous vraiment effectuer cette action ?')" style="display:inline">
                 <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>
@@ -48,8 +50,3 @@ $link = $router->url('admin_posts');
         <?php endforeach ?>
     </tbody>
 </table>
-
-<div class="d-flex justify-content-between my-4">
-    <?= $pagination->previousLink($link) ?>
-    <?= $pagination->nextLink($link) ?>
-</div>

@@ -1,40 +1,43 @@
 <?php
 
+use App\Auth;
 use App\HTML\Form;
 use App\Connection;
-use App\Model\Post;
 use App\ObjectHelper;
+use App\Model\Category;
 use App\Table\PostTable;
-use App\Validators\PostValidator;
+use App\Table\CategoryTable;
+use App\Validators\CategoryValidator;
+
+Auth::check();
 
 $errors = [];
-$post = new Post();
-$post->setCreatedAt(date('Y-m-d H:i:s'));
+$item = new Category();
 
 if (!empty($_POST)) {
     $pdo = Connection::getPDO();
-    $postTable = new PostTable($pdo);
+    $table = new CategoryTable($pdo);
     $success = false;
-    $v = new PostValidator($_POST, $postTable, $post->getID());
-    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
+    $v = new CategoryValidator($_POST, $table);
+    ObjectHelper::hydrate($item, $_POST, ['name', 'content']);
     if ($v->validate()) {
-        $postTable->create($post);
-        header('Location: ' . $router->url('admin_post', ['id' => $post->getID()]) . '?created=1');
+        $table->create($item);
+        header('Location: ' . $router->url('admin_categories') . '?created=1');
         exit();
     } else {
         $errors = $v->errors();
     }
 }
-$form = new Form($post, $errors);
+$form = new Form($item, $errors);
 ?>
 
 
 <?php if (!empty($errors)): ?>
     <div class="alert alert-danger">
-    L'article n'a pas pu être modifié, merci de corriger vos erreurs
+    La catégorie n'a pas pu être modifié, merci de corriger vos erreurs
 </div>
 <?php endif ?>
 
-<h1>Créer un article</h1>
+<h1>Créer une catégorie</h1>
 
 <?php require ('_form.php') ?>

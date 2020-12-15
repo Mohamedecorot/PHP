@@ -1,11 +1,14 @@
 <?php
 
+use App\Auth;
 use App\HTML\Form;
 use App\Connection;
 use App\Model\Post;
 use App\ObjectHelper;
 use App\Table\PostTable;
 use App\Validators\PostValidator;
+
+Auth::check();
 
 $errors = [];
 $post = new Post();
