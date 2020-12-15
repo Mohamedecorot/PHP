@@ -19,9 +19,12 @@ if (!empty($_POST)) {
     $table = new CategoryTable($pdo);
     $success = false;
     $v = new CategoryValidator($_POST, $table);
-    ObjectHelper::hydrate($item, $_POST, ['name', 'content']);
+    ObjectHelper::hydrate($item, $_POST, ['name', 'slug']);
     if ($v->validate()) {
-        $table->create($item);
+        $table->create([
+            'name' => $item->getName(),
+            'slug' => $item->getSlug()
+        ]);
         header('Location: ' . $router->url('admin_categories') . '?created=1');
         exit();
     } else {

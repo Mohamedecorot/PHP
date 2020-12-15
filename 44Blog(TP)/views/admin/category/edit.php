@@ -14,13 +14,16 @@ $table = new CategoryTable($pdo);
 $item = $table->find($params['id']);
 $success = false;
 $errors = [];
-$fields = ['name', 'content', 'slug', 'created_at'];
+$fields = ['name', 'slug'];
 
 if (!empty($_POST)) {
     $v = new CategoryValidator($_POST, $table, $item->getID());
     ObjectHelper::hydrate($item, $_POST, $fields);
     if ($v->validate()) {
-        $table->update($item);
+        $table->update([
+            'name' => $item->getName(),
+            'slug' => $item->getSlug()
+        ], $item->getID());
         $success = true;
     } else {
         $errors = $v->errors();
