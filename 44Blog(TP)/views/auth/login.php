@@ -17,6 +17,8 @@ if (!empty($_POST)) {
         try {
             $u = $table->findByUsername($_POST['username']);
             if(password_verify($_POST['password'], $u->getPassword()) === true) {
+                session_start();
+                $_SESSION['auth'] = $u->getId();
                 header('Location: ' . $router->url('admin_posts'));
                 exit();
             }
@@ -30,7 +32,13 @@ $form = new Form($user, $errors);
 
 <h1>Se connecter</h1>
 
-<form action="" method= "POST">
+<?php if(isset($_GET['forbidden'])): ?>
+<div class="alert alert-danger">
+    Vous ne pouvez pas accéder à cette page
+</div>
+<?php endif ?>
+
+<form action="<?= $router->url('login') ?>" method= "POST">
     <?= $form->input('username', 'Nom d\'utilisateur'); ?>
     <?= $form->input('password', 'Mot de passe'); ?>
     <button type="submit" class="btn btn-primary">Se connecter</button>

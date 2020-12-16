@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use App\Security\ForbiddenException;
+
 class Router {
 
     /**
@@ -52,10 +54,15 @@ class Router {
         $router = $this;
         $isAdmin = strpos($view, 'admin/') !== false;
         $layout = $isAdmin ? 'admin/layouts/default' : 'layouts/default';
-        ob_start();
-        require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
-        $content = ob_get_clean();
-        require $this->viewPath . DIRECTORY_SEPARATOR . $layout . '.php';
+        try {
+            ob_start();
+            require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
+            $content = ob_get_clean();
+            require $this->viewPath . DIRECTORY_SEPARATOR . $layout . '.php';
+        } catch (ForbiddenException $e) {
+            header('Location: ' . $this->url('login') . '?forbidden=1');
+            exit();
+        }
 
 
         return $this;

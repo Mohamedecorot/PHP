@@ -4,6 +4,11 @@ namespace App\Model;
 class User {
 
     /**
+     * @var int
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $username;
@@ -53,6 +58,26 @@ class User {
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param  int  $id
+     */
+    public function setId(int $id): selg
+    {
+        $this->id = $id;
 
         return $this;
     }
