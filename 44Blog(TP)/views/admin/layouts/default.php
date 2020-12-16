@@ -19,7 +19,7 @@
             </li>
             <li class="nav-item">
                 <form action="<?= $router->url('logout') ?>" method="post" style="display inline">
-                    <button type="submit" class="nav-link" style="background: transparent; border: none;">Se déconnecter</button>
+                    <button type="submit" class="nav-link" style="background:transparent; border:none;">Se déconnecter</button>
                 </form>
             </li>
         </ul>

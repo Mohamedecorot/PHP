@@ -75,7 +75,7 @@ class User {
      *
      * @param  int  $id
      */
-    public function setId(int $id): selg
+    public function setId(int $id): self
     {
         $this->id = $id;
 
